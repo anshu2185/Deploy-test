@@ -10,6 +10,7 @@ node {
    def bpass = params.bpass
    def borg = params.borg
    def bspace = params.bspace
+   def mvn_version = 'M3'
    def workspace = pwd()
    def repo_protocol				= "https://"
    def var_github_repo = repo_protocol + "github.com/anshu2185" + "/"
@@ -45,9 +46,11 @@ node {
 	}
     
     stage('Build service'){
-    dir(service_name){
-      sh 'mvn clean install'
+	  withEnv( ["PATH+MAVEN=${tool mvn_version}/bin"] ) {  
+              dir(service_name){
+              sh 'mvn clean install'
     }
+	  }
     }
 	
 	stage ('Deploy service'){
