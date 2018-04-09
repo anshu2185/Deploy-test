@@ -45,9 +45,8 @@ node {
 	
 	stage ('Deploy service'){
     withEnv(["PATH=${workspace}/cf-cli:$PATH"])  {
-        sh 'cf api https://api.ng.bluemix.net'
-        sh 'cf login -u ' + buser + ' - p '+ bpass +' -o ' + borg + ' -s '+ bspace
-		dir(service_name){
+        sh 'cf login -a https://api.system.prokarma.com -u ' + buser + ' - p '+ bpass
+        dir(service_name){
         if(cloud_name == "bluemix"){
         
         sh 'cf push'
