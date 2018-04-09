@@ -10,7 +10,7 @@ node {
    def bpass = params.bpass
    def borg = params.borg
    def bspace = params.bspace
-   def mvn_version = 'M3'
+   def mvn_version = 'Maven 3.3.9'
    def workspace = pwd()
    def repo_protocol				= "https://"
    def var_github_repo = repo_protocol + "github.com/anshu2185" + "/"
