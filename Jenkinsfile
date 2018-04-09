@@ -42,7 +42,7 @@ node {
 		dir(service_name){
         if(cloud_name == "bluemix"){
         
-        sh 'cf login -a https://api.ng.bluemix.net -u ' + buser + '- p '+ bpass + ' -s '+ bspace + ' -o ' + borg
+        sh 'cf login -a https://api.ng.bluemix.net -u ' + buser + ' - p '+ bpass + ' -s '+ bspace + ' -o ' + borg
         sh 'cf push'
         }
         
