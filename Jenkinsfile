@@ -57,12 +57,13 @@ node {
     withEnv(["PATH=${workspace}/cf-cli:$PATH"])  {
 	    if(cloud_name == "pcf"){
         sh 'cf login -a https://api.system.prokarma.com -u $buser -p $bpass --skip-ssl-validation'
-        }
-        dir(service_name){
+		    dir(service_name){
         
          sh 'cf push'
        
 	}
+        }
+        
      }   
 	}
 	
