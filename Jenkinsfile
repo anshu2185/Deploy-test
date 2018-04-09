@@ -45,7 +45,7 @@ node {
 	
 	stage ('Deploy service'){
     withEnv(["PATH=${workspace}/cf-cli:$PATH"])  {
-        sh 'cf login -a https://api.system.prokarma.com -u ' + buser + ' - p '+ bpass
+        sh 'cf login -a https://api.system.prokarma.com -u ' + buser + ' - p '+ bpass +' --skip-ssl-validation'
         dir(service_name){
         if(cloud_name == "bluemix"){
         
