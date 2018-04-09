@@ -1,3 +1,4 @@
+#!groovy
 node {
    echo 'Build and Deployment started'
    def service_name = params.service_name
