@@ -6,10 +6,8 @@ node {
    def password = params.password
    def credentialid = params.credentialid
    def cloud_name = params.cloud_name
-   def buser = params.buser
-   def bpass = params.bpass
-   def borg = params.borg
-   def bspace = params.bspace
+   def puser = params.puser
+   def ppass = params.ppass
    def mvn_version = 'Maven 3.3.9'
    def workspace = pwd()
    def repo_protocol				= "https://"
@@ -56,7 +54,7 @@ node {
 	stage ('Deploy service'){
     withEnv(["PATH=${workspace}/cf-cli:$PATH"])  {
 	    if(cloud_name == "pcf"){
-        sh 'cf login -a https://api.system.prokarma.com -u $buser -p $bpass --skip-ssl-validation'
+        sh 'cf login -a https://api.system.prokarma.com -u $puser -p $ppass --skip-ssl-validation'
 		    dir(service_name){
         
          sh 'cf push'
