@@ -43,16 +43,22 @@ node {
 		}
 
 	}
+    
+    stage('Build service'){
+    dir(service_name){
+      sh 'mvn clean install'
+    }
+    }
 	
 	stage ('Deploy service'){
     withEnv(["PATH=${workspace}/cf-cli:$PATH"])  {
-	sh 'cf help space'
+	    if(cloud_name == "pcf"){
         sh 'cf login -a https://api.system.prokarma.com -u $buser -p $bpass --skip-ssl-validation'
-        dir(service_name){
-        if(cloud_name == "bluemix"){
-        
-        sh 'cf push'
         }
+        dir(service_name){
+        
+         sh 'cf push'
+       
 	}
      }   
 	}
