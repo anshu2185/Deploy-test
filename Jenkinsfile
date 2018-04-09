@@ -45,7 +45,8 @@ node {
 	
 	stage ('Deploy service'){
     withEnv(["PATH=${workspace}/cf-cli:$PATH"])  {
-        sh 'cf login -a https://api.ng.bluemix.net -u ' + buser + ' - p '+ bpass + ' -s '+ bspace + ' -o ' + borg +' --skip-ssl-validation'
+        sh 'cf api https://api.ng.bluemix.net'
+        sh 'cf login -u ' + buser + ' - p '+ bpass + ' -s '+ bspace + ' -o ' + borg
 		dir(service_name){
         if(cloud_name == "bluemix"){
         
