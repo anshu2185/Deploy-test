@@ -9,6 +9,7 @@ node {
    def bpass = params.bpass
    def borg = params.borg
    def bspace = params.bspace
+   def workspace = pwd()
    def repo_protocol				= "https://"
    def var_github_repo = repo_protocol + "github.com/anshu2185" + "/"
 	 git_repo = repo_protocol + "api.github.com/user/repos"
@@ -31,6 +32,10 @@ node {
 			{
 				checkout([$class: 'GitSCM', branches: [[name: '*/master']], doGenerateSubmoduleConfigurations: false, extensions: [], submoduleCfg: [], userRemoteConfigs: [[credentialsId: credentialid, url: var_github_repo + service_name + '.git']]])
 			}
+            dir('cf-cli') {
+            sh 'wget "https://cli.run.pivotal.io/stable?release=linux64-binary&source=github" -O cf-cli.tgz'
+            sh 'tar -zxvf cf-cli.tgz'
+        }
 		}
 		catch(error){
 			//do nothing
@@ -39,17 +44,18 @@ node {
 	}
 	
 	stage ('Deploy service'){
+    withEnv(["PATH=${workspace}/cf-cli:$PATH"])  {
+        sh 'cf login -a https://api.ng.bluemix.net -u ' + buser + ' - p '+ bpass + ' -s '+ bspace + ' -o ' + borg +' --skip-ssl-validation'
 		dir(service_name){
         if(cloud_name == "bluemix"){
-        withCredentials([[$class: 'UsernamePasswordMultiBinding', credentialsId:credentialid, usernameVariable: username, passwordVariable: password]]) {
-        sh 'cf login -a https://api.ng.bluemix.net -u ' + buser + ' - p '+ bpass + ' -s '+ bspace + ' -o ' + borg
+        
         sh 'cf push'
         }
 	}
-        
+     }   
 	}
 	
-	}
+	
 	
 	
 	
